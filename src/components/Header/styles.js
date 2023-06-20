@@ -15,12 +15,10 @@ export const Header = styled.h1`
 `;
 
 export const Title = styled.div`
-    padding-top: 10px;
+    padding-top: 20px;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #fff;
-    font-size: 30px;
-
 `;
