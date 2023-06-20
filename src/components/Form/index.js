@@ -1,29 +1,32 @@
 import React, { useState } from 'react'
 import * as C from './styles'
 import Table from '../Table';
+import { v4 as uuidv4 } from 'uuid';
 
 
-const Form = ({handleAdd,transactionsList,setTransactionsList }) => {
+const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     const [desc, setDesc] = useState("");
     const [amount, setAmount] = useState("");
     const [isExpense, setCategory] = useState(false);
 
-    const gereateId = () => {Math.round(Math.random() * 1000)};
+    const generateId = () => {
+        return uuidv4();
+    };
 
     const handleSave = () => {
         if (!desc || !amount) {
             alert("Informe uma descrição e valor para continuar!");
             return;
-        } else if( amount < 1) {
+        } else if (amount < 1) {
             alert("Informe um valor positivo!");
             return;
         }
 
-        const transaction = {   
-            id: gereateId(),
+        const transaction = {
+            id: generateId(),
             desc: desc,
             amount: amount,
-            expense: isExpense, 
+            expense: isExpense,
         };
 
         handleAdd(transaction);
@@ -46,18 +49,18 @@ const Form = ({handleAdd,transactionsList,setTransactionsList }) => {
                 </C.InputForm>
                 <C.InputForm>
                     <C.Select>
-                        <C.Input 
-                        type="radio" 
-                        name="radio1" 
-                        id="expense" 
-                        defaultChecked
-                        onChange={() => setCategory(!isExpense)} />
+                        <C.Input
+                            type="radio"
+                            name="radio1"
+                            id="expense"
+                            defaultChecked
+                            onChange={() => setCategory(!isExpense)} />
                         <C.Label htmlFor="expense">Entrada</C.Label>
-                        <C.Input 
-                        type="radio" 
-                        name="radio1" 
-                        id="expenseExit" 
-                        onChange={() => setCategory(!isExpense)} />
+                        <C.Input
+                            type="radio"
+                            name="radio1"
+                            id="expenseExit"
+                            onChange={() => setCategory(!isExpense)} />
                         <C.Label htmlFor="expenseExit">Saída</C.Label>
                     </C.Select>
                 </C.InputForm>
