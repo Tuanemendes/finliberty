@@ -19,6 +19,6 @@ export const TableRow = styled.tr``;
 export const TableHeaderColumn = styled.th`
     padding:15px;
     border-bottom: 1px solid #ee6b26;
-    text-align: ${(props) => (props.alignCenter ? 'center' : 'start')};
+    text-align: ${(props) => (props.aligncenter ? 'center' : 'start').toString()};
     width: ${(props) => (props.width ? props.width + '%': 'auto')};
 `;

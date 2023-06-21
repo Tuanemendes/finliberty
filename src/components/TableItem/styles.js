@@ -5,7 +5,7 @@ export const TableRow = styled.tr``;
 export const TableD = styled.td`
     padding: 20px;
   
-    text-align: ${(props) => (props.alignCenter ? 'center' : 'start')};
+    text-align: ${(props) => (props.aligncenter ? 'center' : 'start').toString()};
     word-break: break-all;
 
     svg{

@@ -14,12 +14,12 @@ export const TableItem = ({ item, onDelete }) => {
     };
     return (
         <C.TableRow>
-            <C.TableD>{item.desc}</C.TableD>
+            <C.TableD>{item.description}</C.TableD>
             <C.TableD>{item.amount}</C.TableD>
-            <C.TableD alignCenter>
+            <C.TableD aligncenter >
                 {item.expense ? <FaAngleDown color="red" />  : <FaAngleUp color="green" />}
             </C.TableD>
-            <C.TableD alignCenter>
+            <C.TableD aligncenter >
                 <FaTrashAlt color="grey" onClick={handleDelete} />
             </C.TableD>
         </C.TableRow>

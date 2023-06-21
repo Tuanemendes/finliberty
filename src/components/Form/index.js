@@ -1,74 +1,64 @@
-import React, { useState } from 'react'
-import * as C from './styles'
+import React, { useState } from 'react';
+import * as C from './styles';
 import Table from '../Table';
-import { v4 as uuidv4 } from 'uuid';
 
+const Form = ({ handleAdd, firestore, transactionsList, setTransactionsList }) => {
+  const [description, setDescription] = useState('');
+  const [amount, setAmount] = useState(0);
+  const [isExpense, setCategory] = useState(true);
 
-const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
-    const [desc, setDesc] = useState("");
-    const [amount, setAmount] = useState("");
-    const [isExpense, setCategory] = useState(false);
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-    const generateId = () => {
-        return uuidv4();
+    const newTransaction = {
+      description:description,
+      amount: amount,
+      expense: isExpense,
     };
 
-    const handleSave = () => {
-        if (!desc || !amount) {
-            alert("Informe uma descrição e valor para continuar!");
-            return;
-        } else if (amount < 1) {
-            alert("Informe um valor positivo!");
-            return;
-        }
+    handleAdd(newTransaction);
 
-        const transaction = {
-            id: generateId(),
-            desc: desc,
-            amount: amount,
-            expense: isExpense,
-        };
+    setDescription('');
+    setAmount(0);
 
-        handleAdd(transaction);
+  };
 
-        setDesc("");
-        setAmount("");
-
-    };
-
-    return (
-        <>
-            <C.Container>
-                <C.InputForm>
-                    <C.Label>Descrição</C.Label>
-                    <C.Input value={desc} onChange={e => setDesc(e.target.value)} />
-                </C.InputForm>
-                <C.InputForm>
-                    <C.Label>Valor</C.Label>
-                    <C.Input value={amount} type='number' onChange={e => setAmount(e.target.value)} />
-                </C.InputForm>
-                <C.InputForm>
-                    <C.Select>
-                        <C.Input
-                            type="radio"
-                            name="radio1"
-                            id="expense"
-                            defaultChecked
-                            onChange={() => setCategory(!isExpense)} />
-                        <C.Label htmlFor="expense">Entrada</C.Label>
-                        <C.Input
-                            type="radio"
-                            name="radio1"
-                            id="expenseExit"
-                            onChange={() => setCategory(!isExpense)} />
-                        <C.Label htmlFor="expenseExit">Saída</C.Label>
-                    </C.Select>
-                </C.InputForm>
-                <C.Button onClick={handleSave}>Adicionar</C.Button>
-            </C.Container>
-            <Table itens={transactionsList} setItens={setTransactionsList} />
-        </>
-    );
+  return (
+    <>
+      <C.Container>
+        <C.InputForm >
+          <C.Label>Descrição</C.Label>
+          <C.Input value={description} onChange={(e) => setDescription(e.target.value)} />
+        </C.InputForm>
+        <C.InputForm>
+          <C.Label>Valor</C.Label>
+          <C.Input value={amount} type="number" onChange={(e) => setAmount(e.target.value)} />
+        </C.InputForm>
+        <C.InputForm>
+          <C.Select>
+            <C.Input
+              type="radio"
+              name="radio1"
+              id="expense"
+              defaultChecked={!isExpense}
+              onChange={() => setCategory(!isExpense)}
+            />
+            <C.Label htmlFor="expense">Receita</C.Label>
+            <C.Input
+              type="radio"
+              name="radio1"
+              id="expenseExit"
+              checked={isExpense}
+              onChange={() => setCategory(isExpense)}
+            />
+            <C.Label htmlFor="expenseExit">Despesa</C.Label>
+          </C.Select>
+        </C.InputForm>
+        <C.Button type="submit" onClick={handleSubmit}>Adicionar</C.Button>
+      </C.Container>
+      <Table transactionsList={transactionsList} setTransactionsList={setTransactionsList} firestore={firestore} />
+    </>
+  );
 };
 
 export default Form;
