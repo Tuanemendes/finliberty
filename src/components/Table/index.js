@@ -1,39 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import TableItem from '../TableItem/index.js';
 import * as C from './styles.js';
-import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc,onSnapshot } from 'firebase/firestore';
 
 const Table = ({ firestore }) => {
   const [transactionsList, setTransactionsList] = useState([]);
 
   useEffect(() => {
-    const loadTransactions = async () => {
-      try {
-        // Consulta a coleção "transactions" no Firestore
-        const querySnapshot = await getDocs(collection(firestore, 'transactions'));
+    const unsubscribe = onSnapshot(collection(firestore, 'transactions'), (snapshot) => {
+      const transactions = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setTransactionsList(transactions);
+    });
 
-        // Mapeia os documentos retornados para um array de transações
-        const transactions = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-
-        // Atualiza a lista de transações localmente
-        setTransactionsList(transactions);
-      } catch (error) {
-        console.error('Erro ao carregar transações:', error);
-      }
+    return () => {
+      unsubscribe();
     };
-
-    // Chama a função para carregar as transações ao montar o componente
-    loadTransactions();
-  }, []);
+  }, [firestore]);
 
   const onDelete = async (ID) => {
     try {
-      // Remove o documento do Firestore usando o ID
       await deleteDoc(doc(firestore, 'transactions', ID));
-
-      // Atualiza a lista de transações localmente
-      const newTransactionsList = transactionsList.filter((transaction) => transaction.id !== ID);
-      setTransactionsList(newTransactionsList);
     } catch (error) {
       console.error('Erro ao excluir transação:', error);
     }
