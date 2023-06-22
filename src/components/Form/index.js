@@ -5,7 +5,7 @@ import Table from '../Table';
 const Form = ({ handleAdd, firestore }) => {
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState(0);
-  const [isExpense, setCategory] = useState(true);
+  const [isExpense, setCategory] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -39,8 +39,8 @@ const Form = ({ handleAdd, firestore }) => {
               type="radio"
               name="radio1"
               id="expense"
-              defaultChecked={!isExpense}
-              onChange={() => setCategory(!isExpense)}
+              checked={!isExpense}
+              onChange={() => setCategory(false)}
             />
             <C.Label htmlFor="expense">Receita</C.Label>
             <C.Input
@@ -48,7 +48,7 @@ const Form = ({ handleAdd, firestore }) => {
               name="radio1"
               id="expenseExit"
               checked={isExpense}
-              onChange={() => setCategory(isExpense)}
+              onChange={() => setCategory(true)}
             />
             <C.Label htmlFor="expenseExit">Despesa</C.Label>
           </C.Select>

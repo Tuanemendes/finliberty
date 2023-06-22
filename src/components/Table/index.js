@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TableItem from '../TableItem/index.js';
 import * as C from './styles.js';
-import { collection, getDocs, deleteDoc, doc,onSnapshot } from 'firebase/firestore';
+import { collection, deleteDoc, doc,onSnapshot } from 'firebase/firestore';
 
 const Table = ({ firestore }) => {
   const [transactionsList, setTransactionsList] = useState([]);
