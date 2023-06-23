@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import TableItem from '../TableItem/index.js';
 import * as C from './styles.js';
 import { collection, deleteDoc, doc,onSnapshot } from 'firebase/firestore';
 
-const Table = ({ firestore }) => {
-  const [transactionsList, setTransactionsList] = useState([]);
-
+const Table = ({ firestore, transactionsList, setTransactionsList }) => {
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(firestore, 'transactions'), (snapshot) => {
       const transactions = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -15,11 +13,13 @@ const Table = ({ firestore }) => {
     return () => {
       unsubscribe();
     };
-  }, [firestore]);
+  }, [firestore, setTransactionsList]);
 
   const onDelete = async (ID) => {
     try {
       await deleteDoc(doc(firestore, 'transactions', ID));
+      const updatedTransactions = transactionsList.filter((transaction) => transaction.id !== ID);
+      setTransactionsList(updatedTransactions);
     } catch (error) {
       console.error('Erro ao excluir transação:', error);
     }
@@ -41,7 +41,7 @@ const Table = ({ firestore }) => {
       </C.TableThead>
       <C.TableBody>
         {transactionsList?.map((item, index) => (
-          <TableItem key={index} item={item} onDelete={() => onDelete(item.id)} />
+          <TableItem key={index} item={item} onDelete={onDelete} />
         ))}
       </C.TableBody>
     </C.Table>

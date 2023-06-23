@@ -9,7 +9,6 @@ import {
 
 export const TableItem = ({ item, onDelete }) => {
     const handleDelete = () => {
-        console.log("ID:", item.id); // Imprime o ID no console do navegador
         onDelete(item.id);
     };
     return (

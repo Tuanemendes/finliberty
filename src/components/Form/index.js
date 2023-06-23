@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import * as C from './styles';
 import Table from '../Table';
 
-const Form = ({ handleAdd, firestore }) => {
+const Form = ({ handleAdd, firestore,transactionsList,setTransactionsList}) => {
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState(0);
   const [isExpense, setCategory] = useState(false);
@@ -57,7 +57,8 @@ const Form = ({ handleAdd, firestore }) => {
           Adicionar
         </C.Button>
       </C.Container>
-      <Table firestore={firestore} />
+      <Table firestore={firestore} transactionsList={transactionsList}
+  setTransactionsList={setTransactionsList} />
     </>
   );
 };
